@@ -1,0 +1,35 @@
+.container {
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+    /* background-color: rgba(0, 0, 0, 0.952); */
+}
+
+.login-link:hover, .signup-link:hover {
+    color: rgba(215, 218, 251, 0.9);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.login-form, .signup-form {
+    color: white;
+    justify-content: center;
+    align-content: center;
+    width: 25rem;
+}
+
+.login-btn, .signup-btn {
+    background-color: rgb(81, 45, 168, 1);
+    border: none;
+    width: 25rem;
+}
+
+.login-btn:hover, .signup-btn:hover {
+    background-color: rgb(81, 45, 168, 0.8);
+    border: none;
+}
+
+.login-text, .signup-text {
+    padding: 10px;
+}
