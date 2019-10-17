@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-/src/components/auth/Login.js
+# /src/components/auth/Login.js
 
 # production
 /build

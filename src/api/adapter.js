@@ -7,8 +7,9 @@ import aes from 'crypto-js/aes';
 
 const index = "http://localhost:3000";
 const register = `${index}/register`;
-const login = `${index}/auth`;
+const loginURL = `${index}/auth`;
 const verify = `${index}/auth/verify`;
+const renew = `${index}/token/renew`;
 const recommended = `${index}/recommended`;
 
 
@@ -31,22 +32,49 @@ const signup = async (user) => {
 }
 
 const validate = async (token) => {
+
+        return fetch(verify, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.token
+            }
+        }).then(res => res.json()).then(data => {
+            if (!data.error) {
+                return data
+            } else {
+                return data.error
+            }
+        })
+}
+
+const renewToken = (oldToken) => {
+
+}
+
+const login = async (user) => {
     const config = {
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': token
+            'Content-Type': 'application/json'
         }
     }
-//temporary console log
+
     try {
-        const res = await axios.get(verify, config)
-        console.log(res)
+        const body = JSON.stringify(user);
+        return fetch(loginURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: body
+        }).then(res => res.json()).then(data => localStorage.setItem('token', data.token))
     } catch (error) {
-        console.log(error.response.data.message)
+        console.log(error)
     }
 }
 
 export default {
     signup,
+    login,
     validate
 }

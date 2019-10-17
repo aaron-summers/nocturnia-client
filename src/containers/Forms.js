@@ -18,7 +18,7 @@ export default class Forms extends React.Component {
     }
 
   render() {
-    const { signup } = this.props;
+    const { signup, login } = this.props;
     return (
         <React.Fragment>
         { !this.state.displayLogin ?
@@ -29,7 +29,7 @@ export default class Forms extends React.Component {
                 </div>
             </div>
             : <div className="login-form">
-                <Login />
+                <Login submit={login}/>
                 <div className="signup-text">Don't have an account yet? <span className="signup-link" onClick={this.handleClick} style={{margin: 0, paddingLeft: 0, paddingTop: 0, cursor: 'pointer'}}>
                         Sign Up Now!
                         </span >
