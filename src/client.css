@@ -33,3 +33,16 @@
 .login-text, .signup-text {
     padding: 10px;
 }
+
+.loader-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    justify-content: center;
+    align-content: center;
+    height: 100vh;
+}
+
+.loader-wrapper > .spinner-grow {
+    margin: 10px;
+}

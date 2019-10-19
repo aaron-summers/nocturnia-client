@@ -10,7 +10,7 @@ import Login from '../components/auth/Login';
 
 export default class Forms extends React.Component {
     state = {
-        displayLogin: false
+        displayLogin: true
     }
 
     handleClick = () => {
@@ -21,20 +21,21 @@ export default class Forms extends React.Component {
     const { signup, login } = this.props;
     return (
         <React.Fragment>
-        { !this.state.displayLogin ?
-            <div>
-                <div className="signup-form">
-                    <Signup submit={signup} header={"Sign up"} />
-                    <div className="login-text">Already have an account? <span className="login-link" onClick={this.handleClick} style={{margin: 0, paddingLeft: 0, paddingTop: 0, cursor: 'pointer'}}>Sign In</span ></div>
-                </div>
-            </div>
-            : <div className="login-form">
+        { this.state.displayLogin ?
+             <div className="login-form">
                 <Login submit={login}/>
                 <div className="signup-text">Don't have an account yet? <span className="signup-link" onClick={this.handleClick} style={{margin: 0, paddingLeft: 0, paddingTop: 0, cursor: 'pointer'}}>
                         Sign Up Now!
                         </span >
                     </div>
                 </div>
+            :
+            <div>
+                <div className="signup-form">
+                    <Signup submit={signup} header={"Sign up"} />
+                    <div className="login-text">Already have an account? <span className="login-link" onClick={this.handleClick} style={{margin: 0, paddingLeft: 0, paddingTop: 0, cursor: 'pointer'}}>Sign In</span ></div>
+                </div>
+            </div>
         }
         </React.Fragment>
     );

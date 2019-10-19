@@ -12,23 +12,30 @@ const verify = `${index}/auth/verify`;
 const renew = `${index}/token/renew`;
 const recommended = `${index}/recommended`;
 
+function handleErrors(response) {
+  if (!response.ok) throw Error(response.statusText);
+  return response;
+}
+
 
 const signup = async (user) => {
-    const config = {
+    const body = JSON.stringify(user);
+
+    return fetch(register, {
+        method: 'POST',
         headers: {
-        "Content-Type": "application/json"
+            'Content-Type': 'application/json'
+        },
+        body: body
+    }).then(res => res.json()).then(async data => {
+        if (!data.error) {
+            await localStorage.setItem("token", data.token);
+            window.location.reload();
+            return data;            
+        } else {
+            return data
         }
-    }
-
-    try {
-        const body = JSON.stringify(user);
-        const res = await axios.post(register, body, config);
-        const token = localStorage.setItem('token', res.data.token)
-        return res.data.token;
-
-    } catch (err) {
-        console.log(err.response)
-    }
+    })
 }
 
 const validate = async (token) => {
@@ -37,29 +44,36 @@ const validate = async (token) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': localStorage.token
+                'Authorization': token
             }
-        }).then(res => res.json()).then(data => {
+        }).then(res => res.json()).then(async (data) => {
             if (!data.error) {
+                // window.location.reload();
                 return data
-            } else {
-                return data.error
-            }
-        })
+        }   else if (data.error.message.toLowerCase() === "jwt expired".toLowerCase()) {
+            await renewToken(token)
+            return data
+        }   else {
+            return data
+        }
+    })
 }
 
-const renewToken = (oldToken) => {
-
+const renewToken = async (oldToken) => {
+    return fetch(renew, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': oldToken
+        }
+    }).then(res => res.json()).then(async data => {
+        await validate(data.token);
+        await localStorage.setItem("token", data.token);
+        window.location.reload()
+    })
 }
 
 const login = async (user) => {
-    const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }
-
-    try {
         const body = JSON.stringify(user);
         return fetch(loginURL, {
             method: 'POST',
@@ -67,10 +81,15 @@ const login = async (user) => {
                 'Content-Type': 'application/json'
             },
             body: body
-        }).then(res => res.json()).then(data => localStorage.setItem('token', data.token))
-    } catch (error) {
-        console.log(error)
-    }
+        }).then(res => res.json()).then(async data => {
+            if (!data.error) {
+                window.location.reload();
+                await localStorage.setItem("token", data.token);
+                return data          
+            } else {
+                return data
+            }
+        })
 }
 
 export default {

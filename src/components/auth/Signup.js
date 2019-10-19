@@ -12,7 +12,7 @@ const Signup = ({submit}) => {
   const { username, email, password } = formData;
 
   const handleChange = event =>
-    setForm({ ...formData, [event.target.name]: event.target.value });
+    setForm({ ...formData, [event.target.name]: event.target.value.trim() });
 
   const onSubmit = async event => {
     event.preventDefault();
@@ -48,6 +48,7 @@ const Signup = ({submit}) => {
             value={username}
             autoComplete="off"
             onChange={e => handleChange(e)}
+            required
           />
         </Form.Group>
         <Form.Group className="email-group">
@@ -58,6 +59,7 @@ const Signup = ({submit}) => {
             value={email}
             autoComplete="email"
             onChange={e => handleChange(e)}
+            required
           />
         </Form.Group>
         <Form.Group className="password-group">
@@ -68,6 +70,7 @@ const Signup = ({submit}) => {
             value={password}
             autoComplete="password"
             onChange={e => handleChange(e)}
+            required
           />
         </Form.Group>
         <Button className="signup-btn" type="submit">Sign Up</Button>
