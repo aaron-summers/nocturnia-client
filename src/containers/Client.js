@@ -1,17 +1,18 @@
 import React from 'react';
-import {} from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import {Route, Redirect} from 'react-router-dom';
 
 //api
-import adapter from '../api/adapter';
+import adapter from '../api/auth/adapter';
 
 //components
 import Forms from './Forms';
 import Home from './Home';
+import Loading from "../components/Loading";
 
 //css
 import '../client.css'
-import Loading from '../components/Loading';
+import Navigation from '../components/layout/Navbar';
 
 export default class Index extends React.Component {
   state = {
@@ -31,27 +32,22 @@ export default class Index extends React.Component {
   }
 
   login = async (user) => {
-  const data = await adapter.login(user);
-    if (!data.error) {
-      const actor = await adapter.validate(data)
-      if (!actor._id) return this.setState({isAuthenticated: false})
-      
-      this.setState({actor: actor, isAuthenticated: true })
-
-     } else {
-      console.clear();
-      this.setState({error: data.error})
+  const response = await adapter.login(user);
+    if (response.error) {
+      this.setState({ error: response.error });
     }
+
 }
 
   async componentDidMount() {
-    if (localStorage.token) {
-      const token = await localStorage.getItem("token");
+    if (localStorage.x_tn && localStorage.a_id) {
+      const token = await localStorage.getItem("x_tn");
       const data = await adapter.validate(token);
       if (data._id) {
-        this.setState({loading: false, actor: data, isAuthenticated: true})
+        console.log(data)
+        this.setState({loading: false, actor: {a_id: data._id, x_dn: data.displayName}, isAuthenticated: true})
       } else {
-        // console.log(data.error)
+        console.log(data.error)
         this.setState({error: data.error, loading: false, actor: null, isAuthenticated: false})
       }
     }
@@ -61,16 +57,21 @@ export default class Index extends React.Component {
         return (
           <div className="container">
           {
-            !localStorage.token ? <Redirect to="/welcome" />
+            !localStorage.x_tn ? <Redirect to="/welcome" />
             : !this.state.isAuthenticated ? <Redirect to="/fetching" />
             : <Redirect to="home" />
           }
           {
           } 
           <React.Fragment>
-            <Route path="/fetching" component={Loading} />
-            <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>}/>
-            <Route path="/home" component={Home} />
+            {/* <Navigation /> */}
+              <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>}/>
+            {/* <div> */}
+              <Route path="/home" component={Home} />
+            {/* </div> */}
+            {/* <div className="loader-container"> */}
+              <Route path="/fetching" component={Loading} />
+            {/* </div> */}
           </React.Fragment>
           </div>
         );

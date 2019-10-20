@@ -1,15 +1,13 @@
 import axios from "axios";
 import crypto from 'crypto-js';
 import aes from 'crypto-js/aes';
-// import dotenv from "dotenv";
-
-// dotenv.config();
 
 const index = "http://localhost:3000";
 const register = `${index}/register`;
 const loginURL = `${index}/auth`;
 const verify = `${index}/auth/verify`;
 const renew = `${index}/token/renew`;
+const myUrl = `${index}/users/me`;
 const recommended = `${index}/recommended`;
 
 function handleErrors(response) {
@@ -46,15 +44,14 @@ const validate = async (token) => {
                 'Content-Type': 'application/json',
                 'Authorization': token
             }
-        }).then(res => res.json()).then(async (data) => {
-            if (!data.error) {
-                // window.location.reload();
-                return data
-        }   else if (data.error.message.toLowerCase() === "jwt expired".toLowerCase()) {
-            await renewToken(token)
-            return data
+        }).then(res => res.json()).then(async (jsonRes) => {
+            if (!jsonRes.error) {
+                return jsonRes
+        }   else if (jsonRes.error.message.toLowerCase() === "jwt expired".toLowerCase()) {
+                await renewToken(token)
+                return jsonRes
         }   else {
-            return data
+            return jsonRes
         }
     })
 }
@@ -66,9 +63,9 @@ const renewToken = async (oldToken) => {
             'Content-Type': 'application/json',
             'Authorization': oldToken
         }
-    }).then(res => res.json()).then(async data => {
-        await validate(data.token);
-        await localStorage.setItem("token", data.token);
+    }).then(res => res.json()).then(async resp => {
+        await localStorage.setItem("x_tn", resp.data.token);
+        await validate(resp.data.token);
         window.location.reload()
     })
 }
@@ -81,19 +78,26 @@ const login = async (user) => {
                 'Content-Type': 'application/json'
             },
             body: body
-        }).then(res => res.json()).then(async data => {
-            if (!data.error) {
+        }).then(res => res.json()).then(async resp => {
+            if (!resp.error) {
                 window.location.reload();
-                await localStorage.setItem("token", data.token);
-                return data          
+                await localStorage.setItem("x_tn", resp.data.token);
+                await localStorage.setItem("a_id", resp.data.a_id);
+                return resp          
             } else {
-                return data
+                return resp
             }
         })
+}
+
+const logout = () => {
+    localStorage.clear()
+    window.location.reload();
 }
 
 export default {
     signup,
     login,
-    validate
+    validate,
+    logout
 }

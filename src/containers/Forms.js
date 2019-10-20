@@ -20,6 +20,7 @@ export default class Forms extends React.Component {
   render() {
     const { signup, login } = this.props;
     return (
+        <div className="form-container">
         <React.Fragment>
         { this.state.displayLogin ?
              <div className="login-form">
@@ -38,6 +39,7 @@ export default class Forms extends React.Component {
             </div>
         }
         </React.Fragment>
+        </div>
     );
   }
 }
