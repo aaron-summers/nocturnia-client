@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav } from 'react-bootstrap';
-import {Route, Redirect} from 'react-router-dom';
+import {Route, Redirect, Switch} from 'react-router-dom';
 
 //api
 import adapter from '../api/auth/adapter';
@@ -13,6 +13,7 @@ import Loading from "../components/Loading";
 //css
 import '../client.css'
 import Navigation from '../components/layout/Navbar';
+import TokenError from '../components/error/token';
 
 export default class Index extends React.Component {
   state = {
@@ -39,16 +40,20 @@ export default class Index extends React.Component {
 
 }
 
+  handleError = (error) => {
+    return error
+  }
+
   async componentDidMount() {
     if (localStorage.x_tn && localStorage.a_id) {
-      const token = await localStorage.getItem("x_tn");
+      const token = localStorage.getItem("x_tn");
       const data = await adapter.validate(token);
       if (data._id) {
-        console.log(data)
+        // console.log(data)
         this.setState({loading: false, actor: {a_id: data._id, x_dn: data.displayName}, isAuthenticated: true})
       } else {
-        console.log(data.error)
-        this.setState({error: data.error, loading: false, actor: null, isAuthenticated: false})
+        console.log(data)
+        await this.setState({loading: false, error: data.error, actor: null, isAuthenticated: true})
       }
     }
   }
@@ -57,21 +62,19 @@ export default class Index extends React.Component {
         return (
           <div className="container">
           {
-            !localStorage.x_tn ? <Redirect to="/welcome" />
-            : !this.state.isAuthenticated ? <Redirect to="/fetching" />
-            : <Redirect to="home" />
+              !localStorage.x_tn ? <Redirect to="/welcome" />
+              : this.state.isAuthenticated ? <Redirect to="/home" />
+              : this.state.loading === true ? <Redirect to="/fetching" />
+              // : this.state.error ? <Redirect to="/home" />
+              : <> </>
           }
-          {
-          } 
           <React.Fragment>
-            {/* <Navigation /> */}
-              <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>}/>
-            {/* <div> */}
-              <Route path="/home" component={Home} />
-            {/* </div> */}
-            {/* <div className="loader-container"> */}
-              <Route path="/fetching" component={Loading} />
-            {/* </div> */}
+            <Switch>
+            { this.state.isAuthenticated ? <Route path="/home" component={(props) => <Home errors={this.state.error}/>}/> : <Route path="/fetching" component={Loading} /> }
+            <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>} />
+            <Route path="/fetching" component={Loading} />
+            <Route path="/error" component={(props) => <TokenError details={this.state.error}/>} />
+            </Switch>
           </React.Fragment>
           </div>
         );

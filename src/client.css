@@ -1,4 +1,4 @@
-@media (max-width: 20480px) {
+@media (max-width: 2048px) {
     .container {
         box-sizing: border-box;
         /* display: grid; */
@@ -9,15 +9,34 @@
     }
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 1.2fr 1fr;
+        grid-template-columns: 1fr 1.6fr 1fr;
         align-content: center;
         justify-content: center;
     }
     .home-body{
+        display: grid;
+        grid-template-rows: 0.03fr 1fr;
+        grid-template-columns: 1fr;
         grid-column: 2/3;
-        height: 100vh;
-        border: 0.1mm solid rgba(255, 255, 255, 0.4);
+        height: 180vh;
+        border-left: 0.5px solid rgba(255, 255, 255, 0.1);
+        border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+        z-index: 10px;
         color: white;
+        width: 100%;
+        margin-top: 0;
+    }
+    .home-title {
+        grid-row: 1/2;
+        top: 0;
+        position: sticky;
+        background-color: rgb(10, 10, 10);
+    }
+    .posts-container {
+        grid-row-start: 2;
+    }
+    .error {
+        grid-row-start: 2;
     }
 }
 
@@ -34,7 +53,6 @@
     justify-content: center;
     align-content: center;
     height: 100vh;
-    /* background-color: rgba(0, 0, 0, 0.959); */
 }
 
 .form-container {
@@ -42,7 +60,6 @@
     justify-content: center;
     align-content: center;
     height: 100vh;
-    /* background-color: rgba(0, 0, 0, 0.952); */
 }
 
 .login-link:hover, .signup-link:hover {
@@ -88,10 +105,9 @@
 }
 
 
-@media (max-width: 1080px) {
+/* @media (max-width: 1080px) {
     .container {
         box-sizing: border-box;
-        /* display: grid; */
         margin: 0;
         padding: 0;
         height: 100vh;
@@ -102,13 +118,11 @@
         grid-template-columns: 1fr 1.5fr 1fr;
         align-content: center;
         justify-content: center;
-        /* max-width: 1080px; */
     }
     .home-body{
         grid-column: 2/3;
         height: 100vh;
         border: 0.1mm solid rgba(255, 255, 255, 0.4);
         color: white;
-        /* max-width: 1080px; */
     }
-}
+} */

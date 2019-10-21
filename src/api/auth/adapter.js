@@ -47,8 +47,9 @@ const validate = async (token) => {
         }).then(res => res.json()).then(async (jsonRes) => {
             if (!jsonRes.error) {
                 return jsonRes
-        }   else if (jsonRes.error.message.toLowerCase() === "jwt expired".toLowerCase()) {
+        }   else if (jsonRes.error.message === "jwt expired".toLowerCase()) {
                 await renewToken(token)
+                window.location.reload()
                 return jsonRes
         }   else {
             return jsonRes
@@ -65,8 +66,8 @@ const renewToken = async (oldToken) => {
         }
     }).then(res => res.json()).then(async resp => {
         await localStorage.setItem("x_tn", resp.data.token);
-        await validate(resp.data.token);
-        window.location.reload()
+        validate(resp.data.token);
+        // window.location.reload()
     })
 }
 
@@ -80,9 +81,9 @@ const login = async (user) => {
             body: body
         }).then(res => res.json()).then(async resp => {
             if (!resp.error) {
-                window.location.reload();
                 await localStorage.setItem("x_tn", resp.data.token);
                 await localStorage.setItem("a_id", resp.data.a_id);
+                window.location.reload();
                 return resp          
             } else {
                 return resp
@@ -99,5 +100,6 @@ export default {
     signup,
     login,
     validate,
-    logout
+    logout,
+    renewToken
 }
