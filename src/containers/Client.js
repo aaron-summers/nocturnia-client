@@ -46,15 +46,14 @@ export default class Index extends React.Component {
 
   async componentDidMount() {
     if (localStorage.x_tn && localStorage.a_id) {
-      const token = localStorage.getItem("x_tn");
-      const data = await adapter.validate(token);
-      if (data._id) {
-        // console.log(data)
-        this.setState({loading: false, actor: {a_id: data._id, x_dn: data.displayName}, isAuthenticated: true})
-      } else {
-        console.log(data)
-        await this.setState({loading: false, error: data.error, actor: null, isAuthenticated: true})
-      }
+      const data = await adapter.validate(localStorage.x_tn).then(data => {
+        if (data._id) {
+          this.setState({loading: false, actor: {a_id: data._id, x_dn: data.displayName}, isAuthenticated: true})
+        } else {
+          // console.log(data)
+          this.setState({loading: false, error: data.error, actor: null, isAuthenticated: true})
+        }
+      })
     }
   }
 
@@ -65,15 +64,15 @@ export default class Index extends React.Component {
               !localStorage.x_tn ? <Redirect to="/welcome" />
               : this.state.isAuthenticated ? <Redirect to="/home" />
               : this.state.loading === true ? <Redirect to="/fetching" />
-              // : this.state.error ? <Redirect to="/home" />
+              : this.state.error ? <Redirect to="/home" />
               : <> </>
           }
           <React.Fragment>
             <Switch>
-            { this.state.isAuthenticated ? <Route path="/home" component={(props) => <Home errors={this.state.error}/>}/> : <Route path="/fetching" component={Loading} /> }
+            { this.state.isAuthenticated ? <Route path="/home" component={(props) => <Home />}/> : <Route path="/fetching" component={Loading} /> }
             <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>} />
             <Route path="/fetching" component={Loading} />
-            <Route path="/error" component={(props) => <TokenError details={this.state.error}/>} />
+            {/* <Route path="/error"><TokenError data={this.state.error}/></Route> */}
             </Switch>
           </React.Fragment>
           </div>

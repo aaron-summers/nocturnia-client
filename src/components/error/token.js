@@ -7,6 +7,7 @@ export default class TokenError extends React.Component {
         return (
             <div>
                 <h1>Something went wrong.</h1>
+                {/* {this.} */}
             </div>
         )
     }

@@ -9,7 +9,11 @@
     }
     .home-container {
         display: grid;
-        grid-template-columns: 1fr 1.6fr 1fr;
+        /* grid-template-columns: 1fr 1.6fr 1fr; */
+        /* grid-template-columns: 0.25fr 1.5fr 2.5fr 1fr; */
+        /* grid-template-columns: 0.25fr 0.25fr 3fr 2fr 0.25fr; */
+        grid-template-columns: 0.25fr 0.25fr 2fr 1.5fr 0.5fr;
+        gap: 15px;
         align-content: center;
         justify-content: center;
     }
@@ -17,26 +21,73 @@
         display: grid;
         grid-template-rows: 0.03fr 1fr;
         grid-template-columns: 1fr;
-        grid-column: 2/3;
-        height: 180vh;
-        border-left: 0.5px solid rgba(255, 255, 255, 0.1);
-        border-right: 0.5px solid rgba(255, 255, 255, 0.1);
+        /* grid-column: 2/3; */
+        height: auto;
+        /* border-left: 0.5px solid rgba(255, 255, 255, 0.1);
+        border-right: 0.5px solid rgba(255, 255, 255, 0.1); */
         z-index: 10px;
         color: white;
         width: 100%;
         margin-top: 0;
+        grid-column-start: 3;
+        grid-column-end: 4;
     }
-    .home-title {
+    .navbar {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        height: 50px;
         grid-row: 1/2;
         top: 0;
         position: sticky;
         background-color: rgb(10, 10, 10);
+        align-items: center;
+        border-radius: 30px;
+        z-index: 5;
+        /* margin-left: 0px; */
     }
     .posts-container {
         grid-row-start: 2;
     }
     .error {
+        display: grid;
         grid-row-start: 2;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+    .error-message {
+        grid-row-start: 2;
+    }
+    .post-box {
+        /* background: none; */
+        /* background-color: rgba(29, 29, 29, 0.959); */
+        height: auto;
+        display: grid;
+        /* border-top: 0.5px solid rgba(255, 255, 255, 0.1); */
+        /* border-bottom: 0.5px solid rgba(255, 255, 255, 0.1); */
+        /* grid-template-rows: 1fr 2fr 1fr; */
+        margin: 0 30px 0 30px;
+        padding: 10px 20px;
+        text-align: left;
+    }
+    .postbox-card {
+        z-index: 0;
+        background:none;
+        background-color: rgba(255, 255, 255, 0.02);
+    }
+    .searchbar {
+        justify-content: center;
+        background: url("https://image.flaticon.com/icons/svg/857/857779.svg") no-repeat;
+        background-color: rgba(255, 255, 255, 0.05);
+        color: white;
+        background-position: right 5px;
+        border: none;
+        border-radius: 30px;
+        margin-left: -5px;
+        padding-left: 10px;
+        height: 100%;
+    }
+    .searchbar:focus {
+        outline: 0;
+        box-shadow: 0px 0px 5px rgba(44, 54, 165, 0.9);
     }
 }
 

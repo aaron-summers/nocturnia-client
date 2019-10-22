@@ -49,7 +49,7 @@ const validate = async (token) => {
                 return jsonRes
         }   else if (jsonRes.error.message === "jwt expired".toLowerCase()) {
                 await renewToken(token)
-                window.location.reload()
+                // window.location.reload()
                 return jsonRes
         }   else {
             return jsonRes
