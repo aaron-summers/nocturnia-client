@@ -4,45 +4,45 @@ import React from 'react';
 import "../home.css";
 
 //api
-import adapter from '../api/posts/adapter'
+import postAdapter from '../api/posts/adapter'
+import adapter from "../api/auth/adapter";
 import Posts from './Posts';
 import TokenError from '../components/error/token';
 import Search from '../components/Search';
+import UserCard from '../components/UserCard';
 
 export default class Home extends React.Component{
     state = {
         posts: []
+        // self: null
     }
     async componentDidMount() {
-        await adapter.recommendedPosts(localStorage.x_tn).then(posts => this.setState(posts))
-        // console.table(this.state.error)
+        await postAdapter.recommendedPosts(localStorage.x_tn).then(posts => this.setState(posts))
+        // await adapter.getSelf(localStorage.x_tn).then(data => this.setState({self: data}))
     }
 
     render() {
         return (
-            <div className="home-container">
-                
-                {
-                    
-                !this.state.error 
-                ? 
-                <div className="home-body"> 
-                    <div className="navbar" style={{border: "0.2mm solid rgba(255, 255, 255, 0.2)"}}>
-                        {/* <h3 style={{height: "100%"}}>Home</h3> */}
-                        <Search />
-                        {/* <input style={{border: "none", borderRadius: "20px"}}></input> */}
-                    </div>
-                    <Posts data={this.state.posts}/> 
+          <div className="home-container">
+            {/* { */}
+
+            {/* // !this.state.error 
+                // ? 
+                // <div> */}
+            <section className="home-body">
+              <div className="navbar">
+                {/* <h3>Home</h3> */}
+                <Search />
+              </div>
+              <Posts data={this.state.posts} />
+            </section>
+            <section className="home-sidepanel">
+                <div className="navpanel">
+                    panel nav
                 </div>
-                : <div className="home-body"> 
-                    <div className="navbar" style={{border: "0.2mm solid rgba(255, 255, 255, 0.2)", borderRadius: "20px", paddingBottom: "2px"}}><h2>Home</h2></div>
-                    <div className="error"><h4 className="error-message">{this.state.error.message.toUpperCase()}</h4></div>
-                    
-                </div>
-                
-                } 
-                
-            </div>
-        )
+                <UserCard />
+            </section>
+          </div>
+        );
     }
 }

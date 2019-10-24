@@ -7,7 +7,7 @@ const register = `${index}/register`;
 const loginURL = `${index}/auth`;
 const verify = `${index}/auth/verify`;
 const renew = `${index}/token/renew`;
-const myUrl = `${index}/users/me`;
+const myUrl = `${index}/home/me`;
 const recommended = `${index}/recommended`;
 
 function handleErrors(response) {
@@ -91,6 +91,18 @@ const login = async (user) => {
         })
 }
 
+const getSelf = (token) => {
+    return fetch(myUrl, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }).then(res => res.json()).then(data => {
+        return data
+    })
+}
+
 const logout = () => {
     localStorage.clear()
     window.location.reload();
@@ -101,5 +113,6 @@ export default {
     login,
     validate,
     logout,
-    renewToken
+    renewToken,
+    getSelf
 }
