@@ -10,6 +10,7 @@ import Posts from './Posts';
 import TokenError from '../components/error/token';
 import Search from '../components/Search';
 import UserCard from '../components/UserCard';
+import ActionBar from '../components/ActionBar';
 
 export default class Home extends React.Component{
     state = {
@@ -30,17 +31,20 @@ export default class Home extends React.Component{
                 // ? 
                 // <div> */}
             <section className="home-body">
+              {/* <div> */}
               <div className="navbar">
                 {/* <h3>Home</h3> */}
                 <Search />
               </div>
+              {/* </div> */}
               <Posts data={this.state.posts} />
             </section>
             <section className="home-sidepanel">
-                <div className="navpanel">
-                    panel nav
+              <div className="panel-container">
+                <div className="panel">
+                  <ActionBar />
                 </div>
-                <UserCard />
+              </div>
             </section>
           </div>
         );

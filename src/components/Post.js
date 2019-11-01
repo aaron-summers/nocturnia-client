@@ -7,8 +7,8 @@ export default class Post extends React.Component {
         return (
           <div className="post-box">
             <Card className="postbox-card">
-              <Card.Header>{this.props.title}</Card.Header>
-              <Card.Body>{this.props.content}</Card.Body>
+              { this.props.title ? <Card.Header>{this.props.title}</Card.Header> : <> </>}
+              <Card.Body style={{whiteSpace: "pre-wrap"}}>{this.props.content}</Card.Body>
             </Card>
           </div>
         );

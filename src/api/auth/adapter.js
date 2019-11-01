@@ -1,7 +1,3 @@
-import axios from "axios";
-import crypto from 'crypto-js';
-import aes from 'crypto-js/aes';
-
 const index = "http://localhost:3000";
 const register = `${index}/register`;
 const loginURL = `${index}/auth`;

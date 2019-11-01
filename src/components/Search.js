@@ -1,7 +1,7 @@
 import React from 'react';
 
 //css
-import {InputGroup} from 'react-bootstrap';
+// import {InputGroup} from 'react-bootstrap';
 
 export default class Search extends React.Component {
     render() {

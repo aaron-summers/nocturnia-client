@@ -1,5 +1,5 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
+// import { Nav } from 'react-bootstrap';
 import {Route, Redirect, Switch} from 'react-router-dom';
 
 //api
@@ -12,8 +12,8 @@ import Loading from "../components/Loading";
 
 //css
 import '../client.css'
-import Navigation from '../components/layout/Navbar';
-import TokenError from '../components/error/token';
+// import Navigation from '../components/layout/Navbar';
+// import TokenError from '../components/error/token';
 
 export default class Index extends React.Component {
   state = {
@@ -69,7 +69,7 @@ export default class Index extends React.Component {
           }
           <React.Fragment>
             <Switch>
-            { this.state.isAuthenticated ? <Route path="/home" component={(props) => <Home />}/> : <Route path="/fetching" component={Loading} /> }
+            { this.state.isAuthenticated ? <Route path="/home" component={Home}/> : <Route path="/fetching" component={Loading} /> }
             <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>} />
             <Route path="/fetching" component={Loading} />
             {/* <Route path="/error"><TokenError data={this.state.error}/></Route> */}
