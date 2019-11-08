@@ -29,17 +29,17 @@ export default class ActionBar extends React.PureComponent {
           <Card className="action-bar">
             {/* <Card.Body> */}
                 <section className="text-post">
-                    text
+                    Story
                 </section>
                 <section className="story-post">
-                    story
+                    Social
                 </section>
                 <section className="image-post">
-                    image
+                    Journal
                 </section>
-                <section className="extra-post">
-                    extra
-                </section>
+                {/* <section className="extra-post">
+                    null
+                </section> */}
             {/* </Card.Body> */}
           </Card>
           </section>

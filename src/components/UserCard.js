@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Card} from 'react-bootstrap';
+import {Card, Figure, Button} from 'react-bootstrap';
 import adapter from '../api/auth/adapter';
 import Loading from './Loading'
 
@@ -23,19 +23,31 @@ export default class UserCard extends React.PureComponent{
 
     render() {
         return (
-          <div className="panel">
-            {this.state.self ?
-                <Card className="user-card">
-                    <Card.Img variant="left" src={this.state.self.avatar} height="148px"/>
-                <Card.Body>
+          <section>
+            {this.state.self ? (
+              <div className="user-card">
+                <section className="user-card-avatar">
+                  <img src={this.state.self.avatar} width={128} style={{borderRadius: "50%"}} />
+                  {/* <Card.Body>
                     <h3>{this.state.self.display}</h3>
                     @{this.state.self.username}
-                </Card.Body>
-                </Card>
-             : 
+                </Card.Body> */}
+                </section>
+                <section className="user-card-buttons-container">
+                    {/* <section className="user-card-button-one">
+                        
+                    </section>
+                    <section className="user-card-button-two">
+                        <Button>Post</Button>
+                    </section> */}
+                    <button className="goto-profile">Profile</button>
+                    <button className="create-post">Post</button>
+                </section>
+              </div>
+            ) : (
               <Loading />
-            }
-          </div>
+            )}
+          </section>
         );
     }
 }

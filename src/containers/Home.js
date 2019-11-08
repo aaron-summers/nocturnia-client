@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Redirect, Switch } from "react-router-dom";
 
 //css
 import "../home.css";
@@ -11,11 +12,11 @@ import TokenError from '../components/error/token';
 import Search from '../components/Search';
 import UserCard from '../components/UserCard';
 import ActionBar from '../components/ActionBar';
+import Spotlight from '../components/Spotlight';
 
 export default class Home extends React.Component{
     state = {
         posts: []
-        // self: null
     }
     async componentDidMount() {
         await postAdapter.recommendedPosts(localStorage.x_tn).then(posts => this.setState(posts))
@@ -25,24 +26,20 @@ export default class Home extends React.Component{
     render() {
         return (
           <div className="home-container">
-            {/* { */}
-
-            {/* // !this.state.error 
-                // ? 
-                // <div> */}
-            <section className="home-body">
-              {/* <div> */}
-              <div className="navbar">
-                {/* <h3>Home</h3> */}
+            <div className="home-header">
+              <div className="headerbar">
                 <Search />
               </div>
-              {/* </div> */}
+            </div>
+            <section className="home-body">
               <Posts data={this.state.posts} />
             </section>
             <section className="home-sidepanel">
               <div className="panel-container">
                 <div className="panel">
-                  <ActionBar />
+                  {/* <ActionBar /> */}
+                  <UserCard />
+                  <Spotlight />
                 </div>
               </div>
             </section>

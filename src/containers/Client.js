@@ -12,6 +12,7 @@ import Loading from "../components/Loading";
 
 //css
 import '../client.css'
+import TokenError from '../components/error/token';
 // import Navigation from '../components/layout/Navbar';
 // import TokenError from '../components/error/token';
 
@@ -49,9 +50,17 @@ export default class Index extends React.Component {
       const data = await adapter.validate(localStorage.x_tn).then(data => {
         if (data._id) {
           this.setState({loading: false, actor: {a_id: data._id, x_dn: data.displayName}, isAuthenticated: true})
-        } else {
+        } else if (data.error.message === "jwt expired") {
           // console.log(data)
           this.setState({loading: false, error: data.error, actor: null, isAuthenticated: true})
+        } else {
+          console.log(data)
+          this.setState({
+            loading: false,
+            error: {error: data.error, status: data.status},
+            actor: null,
+            isAuthenticated: false
+          });
         }
       })
     }
@@ -64,7 +73,7 @@ export default class Index extends React.Component {
               !localStorage.x_tn ? <Redirect to="/welcome" />
               : this.state.isAuthenticated ? <Redirect to="/home" />
               : this.state.loading === true ? <Redirect to="/fetching" />
-              : this.state.error ? <Redirect to="/home" />
+              : this.state.error ? <Redirect to="/error" />
               : <> </>
           }
           <React.Fragment>
@@ -72,7 +81,7 @@ export default class Index extends React.Component {
             { this.state.isAuthenticated ? <Route path="/home" component={Home}/> : <Route path="/fetching" component={Loading} /> }
             <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>} />
             <Route path="/fetching" component={Loading} />
-            {/* <Route path="/error"><TokenError data={this.state.error}/></Route> */}
+            <Route path="/error" component={TokenError}/>
             </Switch>
           </React.Fragment>
           </div>
