@@ -3,6 +3,7 @@ import React from 'react';
 import {Card, Figure, Button} from 'react-bootstrap';
 import adapter from '../api/auth/adapter';
 import Loading from './Loading'
+import Search from './Search';
 
 export default class UserCard extends React.PureComponent{
     state = {
@@ -19,6 +20,10 @@ export default class UserCard extends React.PureComponent{
                 username: data.username
             }
         }))
+    }
+
+    handleClick = () => {
+        this.props.toggler()
     }
 
     render() {
@@ -41,7 +46,7 @@ export default class UserCard extends React.PureComponent{
                         <Button>Post</Button>
                     </section> */}
                     <button className="goto-profile">Profile</button>
-                    <button className="create-post">Post</button>
+                    <button className="create-post" onClick={this.handleClick}>Post</button>
                 </section>
               </div>
             ) : (

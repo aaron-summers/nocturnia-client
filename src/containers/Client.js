@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Nav } from 'react-bootstrap';
 import {Route, Redirect, Switch} from 'react-router-dom';
 
 //api
@@ -13,8 +12,6 @@ import Loading from "../components/Loading";
 //css
 import '../client.css'
 import TokenError from '../components/error/token';
-// import Navigation from '../components/layout/Navbar';
-// import TokenError from '../components/error/token';
 
 export default class Index extends React.Component {
   state = {

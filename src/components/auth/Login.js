@@ -52,16 +52,7 @@ const Login = ({ submit }) => {
             required
           />
         </Form.Group>
-        {/* <Form.Group className="email-group">
-          <Form.Control
-            placeholder="email"
-            type="email"
-            name="email"
-            value={email}
-            autoComplete="email"
-            onChange={e => handleChange(e)}
-          />
-        </Form.Group> */}
+
         <Form.Group className="password-group">
           <Form.Control
             placeholder="Password"

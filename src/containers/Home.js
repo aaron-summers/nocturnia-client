@@ -13,14 +13,20 @@ import Search from '../components/Search';
 import UserCard from '../components/UserCard';
 import ActionBar from '../components/ActionBar';
 import Spotlight from '../components/Spotlight';
+import QuickPostBox from '../components/QuickPost';
 
 export default class Home extends React.Component{
     state = {
-        posts: []
+        posts: [],
+        postsVisible: true,
+        postBox: false
     }
     async componentDidMount() {
         await postAdapter.recommendedPosts(localStorage.x_tn).then(posts => this.setState(posts))
-        // await adapter.getSelf(localStorage.x_tn).then(data => this.setState({self: data}))
+    }
+
+    toggleModal = () => {
+      this.setState({postBox: !this.state.postBox})
     }
 
     render() {
@@ -32,13 +38,18 @@ export default class Home extends React.Component{
               </div>
             </div>
             <section className="home-body">
-              <Posts data={this.state.posts} />
+              <div className="posts-container">
+                <Posts data={this.state.posts} />
+              </div>
             </section>
             <section className="home-sidepanel">
               <div className="panel-container">
                 <div className="panel">
-                  {/* <ActionBar /> */}
-                  <UserCard />
+                  <UserCard toggler={this.toggleModal} />
+                  {this.state.postBox 
+                  ? <QuickPostBox />
+                  : <> </>
+                  }
                   <Spotlight />
                 </div>
               </div>
@@ -47,3 +58,5 @@ export default class Home extends React.Component{
         );
     }
 }
+
+// style={{ display: "hidden" }}
