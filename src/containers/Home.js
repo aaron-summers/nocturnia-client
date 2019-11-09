@@ -30,7 +30,8 @@ export default class Home extends React.Component{
     }
 
     submitPost = async (post) => {
-      await console.log(post)
+      // await console.log(post)
+      await postAdapter.createPost(post)
     }
 
     render() {

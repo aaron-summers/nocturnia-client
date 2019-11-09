@@ -1,5 +1,7 @@
 import React from 'react';
 
+import uuid from 'uuid/v4';
+
 import {Card} from 'react-bootstrap';
 
 export default class Post extends React.Component {
@@ -9,6 +11,11 @@ export default class Post extends React.Component {
             <Card className="postbox-card">
               { this.props.title ? <Card.Header>{this.props.title}</Card.Header> : <> </>}
               <Card.Body style={{whiteSpace: "pre-wrap"}}>{this.props.content}</Card.Body>
+              { this.props.tags 
+                ? <Card.Footer>
+                  {this.props.tags.map(tag => <span key={uuid()} className="postbox-footer-tags">#{tag}</span>)}
+                </Card.Footer> 
+                : <> </>}
             </Card>
           </div>
         );
