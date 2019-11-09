@@ -29,6 +29,10 @@ export default class Home extends React.Component{
       this.setState({postBox: !this.state.postBox})
     }
 
+    submitPost = async (post) => {
+      await console.log(post)
+    }
+
     render() {
         return (
           <div className="home-container">
@@ -47,7 +51,7 @@ export default class Home extends React.Component{
                 <div className="panel">
                   <UserCard toggler={this.toggleModal} />
                   {this.state.postBox 
-                  ? <QuickPostBox />
+                  ? <QuickPostBox submit={this.submitPost}/>
                   : <> </>
                   }
                   <Spotlight />

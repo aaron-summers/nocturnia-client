@@ -8,22 +8,23 @@ export default class QuickPostBox extends React.Component {
   state = {
     post: {
       content: "",
-      tags: []
+      tags: ["nwq", "test"]
     },
     fill: false
   }
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
+      const {submit} = this.props;
         event.preventDefault()
         if (!this.state.post.content.match(/\S+/)) {
           console.log("please type something");
         } else if (this.state.post.content.match(/\S+/)) {
-          console.log(this.state.post.content);
+          submit(this.state.post)
         } 
     }
 
     handleChange = async (event) => {
-        await this.setState({post: {content: event.target.value}})
+        await this.setState({post: {...this.state.post, content: event.target.value}})
 
         if (this.state.post.content.match(/\S+/)) {
           this.setState({ fill: true });
@@ -34,12 +35,11 @@ export default class QuickPostBox extends React.Component {
 
     render() {
       return (
-        // <Form onSubmit={e => this.handleSubmit(e)}>
         <section>
           <Card className="create-post-box animated fadeIn">
             <Card.Header>Social</Card.Header>
             <form onSubmit={e => this.handleSubmit(e)}>
-              <Card.Body>
+              <Card.Body className="quickpost-input-container">
                 <textarea
                   onChange={event => this.handleChange(event) }
                   className="postbox-textarea"
@@ -58,7 +58,6 @@ export default class QuickPostBox extends React.Component {
             </form>
           </Card>
         </section>
-        // </Form>
       );
     };
 }
