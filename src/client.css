@@ -74,7 +74,7 @@
         row-gap: 5px;
         align-content: center;
         justify-content: center;
-        height: 100vh;
+        height: auto;
     }
     .home-header {
         grid-row: 1/2;

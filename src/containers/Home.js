@@ -30,8 +30,31 @@ export default class Home extends React.Component{
     }
 
     submitPost = async (post) => {
-      // await console.log(post)
-      await postAdapter.createPost(post)
+      await postAdapter.createPost(post).then(async data => {
+        if (!data.error) {
+            await this.setState(prevState => ({
+              posts: [data].concat(...prevState.posts)
+            }));
+        }
+      })
+
+      await this.setState({postBox: false})
+    }
+
+    async componentWillMount() {
+      if (localStorage.tmpContent) {
+
+        const recomposed = {
+          content: localStorage.tmpContent,
+          tags: localStorage.tmpTags.split(",")
+        }
+
+        await postAdapter.createPost(recomposed).then(async data => {
+          if (!data.error) {
+          await this.setState({posts: [data].concat(this.state.posts)})
+          }
+        })
+      }
     }
 
     render() {

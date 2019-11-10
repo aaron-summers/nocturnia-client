@@ -24,7 +24,6 @@ export default class QuickPostBox extends React.Component {
           content: this.state.content,
           tags: filteredTags
         };
-
         submit(post);
       } catch (error) {
         console.log(error);
@@ -66,14 +65,15 @@ export default class QuickPostBox extends React.Component {
       <section>
         <Card className="create-post-box animated fadeIn">
           <Card.Header>Social</Card.Header>
-          <form onSubmit={e => this.handleSubmit(e)}>
+          <form onSubmit={e => {
+              this.handleSubmit(e)}
+              }>
             <Card.Body className="quickpost-input-container">
               <textarea
                 onChange={event => this.handleChange(event)}
                 onKeyDown={event => {
                   if (event.key === "Enter") {
-                    // event.preventDefault();
-                    return false;
+                    // return false;
                   }
                 }}
                 className="postbox-textarea"
