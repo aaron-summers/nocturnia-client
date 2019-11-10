@@ -63,7 +63,7 @@ export default class QuickPostBox extends React.Component {
   render() {
     return (
       <section>
-        <Card className="create-post-box animated fadeIn">
+        <Card className="create-post-box">
           <Card.Header>Social</Card.Header>
           <form onSubmit={e => {
               this.handleSubmit(e)}

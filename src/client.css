@@ -1,5 +1,13 @@
-@media (max-width: 2048px) {
+@media (min-width: 1600px) {
     /* USER REGISTRATION AND LOGIN CSS*/
+
+    #root {
+        margin: auto;
+        max-width: 1920px;
+        border: solid rgba(215, 218, 251, 0.082);
+        border-width: 0 1px 0 1px;
+        height: 100%;
+    }
     .loader-container {
         display: grid;
         justify-content: center;
@@ -69,7 +77,7 @@
     .home-container {
         display: grid;
         grid-template-columns: 0.25fr 0.25fr 2fr 1.5fr 0.5fr;
-        grid-template-rows: 64px 1fr;
+        grid-template-rows: 78px 1fr;
         gap: 15px;
         row-gap: 5px;
         align-content: center;
@@ -100,7 +108,7 @@
         display: grid;
         width: 690px;
         grid-template-columns: 1fr 1fr;
-        height: 56px;
+        height: 78px;
         grid-row: 1/2;
         position: fixed;
         background-color: rgb(10, 10, 10);
@@ -162,32 +170,40 @@
         justify-content: center;
         width: 614px;
         display: grid;
-        gap: 20px;
+        gap: 10px;
         grid-row-start: 2;
         grid-template-rows: 0.5fr 1fr 0.75fr;
         z-index: 5;
-        height: inherit;
+        height: auto;
     }
     .user-card {
         display: grid;
-        grid-template-columns: 1.5fr 2fr;
+        /* grid-template-columns: 1.5fr 2fr; */
+        grid-template-rows: 64px 1fr;
         grid-row: 1/2;
         align-items: center;
         justify-items: center;
-        height: 210px;
+        height: auto;
         width: 538px;
         background-color: rgba(255, 255, 255, 0.02);
         color: white;
-        border-radius: 5px;
+        border-radius: 15px;
     }
     .user-card-avatar {
         padding: 30px;
         grid-column: 1/2;
+        grid-row: 2/3;
+        border-right: 1px solid rgba(215, 218, 251, 0.015);
+        line-height: 5px;
+        border-radius: 15px;
     }
     .user-card-buttons-container {
         display: grid;
-        grid-template-rows: 1fr 1fr;
-        gap: 25px;
+        grid-template-rows: 0.5fr 0.6fr 0.6fr 0.5fr;
+        /* gap: 25px; */
+        grid-row: 2/3;
+        align-items: center;
+        justify-items: center;
     }
     .user-card-button-one {
         grid-row: 1/2
@@ -195,6 +211,30 @@
     .user-card-button-two {
         grid-row: 2/3;
     }
+
+    .user-section-1 {
+        top: 15px;
+        display: grid;
+        grid-row: 1/2;
+        grid-template-columns: 215px 1fr 1fr 1fr 1fr;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+        border-bottom: 1px solid rgba(215, 218, 251, 0.015);
+        box-shadow: 0 0 1px  rgba(215, 218, 251, 0.045);
+        border-radius: 15px;
+        z-index: 10px;
+    }
+
+    .user-section-2 {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        grid-row: 2/3;
+        width: 100%;
+        z-index: 0px;
+        gap: 5px;
+    }
+
     .action-bar, .spotlight-tags {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -220,7 +260,7 @@
         position: fixed;
     }
 
-
+/* 
     .text-post {
         grid-column: 1/2;
     }
@@ -232,7 +272,7 @@
     }
     .extra-post {
         grid-column: 4/5;
-    }
+    } */
 
     .goto-profile, .create-post {
         font-weight: 600;
@@ -244,6 +284,14 @@
         width: 256px;
         height: 40px;
         transition: all ease 0.1s;
+    }
+
+    .goto-profile {
+        grid-row: 2/3;
+    }
+
+    .create-post {
+        grid-row: 3/4;
     }
 
     .goto-profile:hover, .create-post:hover {
@@ -258,6 +306,7 @@
     .create-post-box {
         background-color: rgba(255, 255, 255, 0.02);
         animation-duration: 0.5s;
+        border-radius: 15px;
     }
 
     .postbox-textarea {
@@ -324,6 +373,109 @@
     .postbox-footer-tags {
         color: rgba(255, 255, 255, 0.6);
         padding: 0 6px 0 0;
+    }
+
+    .home-app-left-panel-container {
+        display: grid;
+        grid-column: 1/2;
+        grid-row: 2/3;
+        grid-template-rows: 1fr;
+    }
+
+    .fixed-left-panel {
+        height: 100%;
+        position: fixed;
+    }
+
+    .left-panel {
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        display: grid;
+        grid-gap: 20px;
+        gap: 20px;
+        grid-row-start: 2;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        z-index: 5;
+        height: inherit;
+    }
+
+    .dashboard-label {
+        font-weight: 600;
+        font-size: large;
+    }
+
+    .logout-btn .alt-text-logout-btn {
+        /* display: none; */
+        background: rgba(215, 218, 251, 0.045);
+        visibility: hidden;   
+        transition: 0.5s ease-in-out;
+        opacity: 0;
+        position: absolute;
+        width: 150px;
+        border-radius: 20px;
+
+    }
+
+    .logout-btn:hover .alt-text-logout-btn {
+        /* display: block; */
+        transition-property: visibility, opacity, margin-left;
+        position: absolute;
+        opacity: 1;
+        visibility: visible;
+        margin-left: 60px;
+        width: 90px;
+    }
+
+    .alt-text-logout-btn .logout-container-arrow {
+        /* border-style: solid; */
+        position: absolute;
+        border-color: rgba(215, 218, 251, 0.045) transparent transparent transparent;
+        border-width: 5px 10px 5px 0px;
+        border-top: 4px solid transparent;
+        border-right: 8px solid rgba(215, 218, 251, 0.045);
+        border-bottom: 4px solid transparent;
+        left: -7px;
+        top: 8px;
+        border-radius: 20px;
+    }
+
+    .logout-btn-container {
+        grid-row: 3/4;
+        width: 100px
+    }
+
+    .logout-btn-section {
+        grid-column: 5/6;
+        margin: auto;
+        cursor: pointer;
+        /*transition: all 0.2s ease-in-out; */
+    }
+
+    .logout-btn:hover {
+        transform: scale(1.01);
+        box-shadow: 0 0 10px rgba(215, 218, 251, 0.45);
+        border-radius: 50%;
+    }
+
+    .sidepanel-header-container {
+        grid-row: 1/2;
+        grid-column: 4/5;
+    }
+
+    .sidepanel-toolbar-container {
+        display: grid;
+        width: 614px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        height: 78px;
+        grid-row: 1/2;
+        position: fixed;
+        background-color: rgb(10, 10, 10);
+        align-items: center;
+        text-align: left;
+        z-index: 10;
+        padding: 0 40px;
+        margin-top: 0;
     }
 
     ::-webkit-scrollbar {

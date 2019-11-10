@@ -14,6 +14,7 @@ import UserCard from '../components/UserCard';
 import ActionBar from '../components/ActionBar';
 import Spotlight from '../components/Spotlight';
 import QuickPostBox from '../components/QuickPost';
+import Logout from '../components/Logout';
 
 export default class Home extends React.Component{
     state = {
@@ -60,6 +61,13 @@ export default class Home extends React.Component{
     render() {
         return (
           <div className="home-container">
+            <section className="home-app-left-panel-container">
+              <div className="fixed-left-panel">
+                <div className="left-panel">
+
+                </div>
+              </div>
+            </section>
             <div className="home-header">
               <div className="headerbar">
                 <Search />
@@ -70,14 +78,19 @@ export default class Home extends React.Component{
                 <Posts data={this.state.posts} />
               </div>
             </section>
+            <section className="sidepanel-header-container">
+              <div className="sidepanel-toolbar-container">
+              </div>
+            </section>
             <section className="home-sidepanel">
               <div className="panel-container">
                 <div className="panel">
-                  <UserCard toggler={this.toggleModal} />
-                  {this.state.postBox 
-                  ? <QuickPostBox submit={this.submitPost}/>
-                  : <> </>
-                  }
+                    <UserCard toggler={this.toggleModal} />
+                  {this.state.postBox ? (
+                    <QuickPostBox submit={this.submitPost} />
+                  ) : (
+                    <> </>
+                  )}
                   <Spotlight />
                 </div>
               </div>
