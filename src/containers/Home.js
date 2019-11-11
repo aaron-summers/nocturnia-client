@@ -87,7 +87,7 @@ export default class Home extends React.Component{
                 <div className="panel">
                     <UserCard toggler={this.toggleModal} />
                   {this.state.postBox ? (
-                    <QuickPostBox submit={this.submitPost} />
+                    <QuickPostBox submit={this.submitPost} toggler={this.toggleModal} />
                   ) : (
                     <> </>
                   )}

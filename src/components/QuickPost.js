@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import uuid from "uuid/v4";
 
 import { Modal, Button, Card, Form } from "react-bootstrap";
+import Cancel from "./Cancel";
 
 export default class QuickPostBox extends React.Component {
   state = {
@@ -60,14 +61,25 @@ export default class QuickPostBox extends React.Component {
     }));
   };
 
+  handleCloseBtn = () => {
+    this.props.toggler()
+  }
+
   render() {
     return (
       <section>
         <Card className="create-post-box">
-          <Card.Header>Social</Card.Header>
-          <form onSubmit={e => {
-              this.handleSubmit(e)}
-              }>
+          <Card.Header className="quickpost-card-header">
+            <span className="quickpost-header-text">Social</span>
+            <div className="cancel-btn" onClick={e => this.handleCloseBtn()}>
+              <Cancel />
+            </div>
+          </Card.Header>
+          <form
+            onSubmit={e => {
+              this.handleSubmit(e);
+            }}
+          >
             <Card.Body className="quickpost-input-container">
               <textarea
                 onChange={event => this.handleChange(event)}

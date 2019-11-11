@@ -34,8 +34,6 @@ export default class UserCard extends React.PureComponent{
               <div className="user-card">
                 <section className="user-section-1">
                   <section>
-                    {/* <div>{this.state.self.display}</div>
-                    <small>@{this.state.self.username}</small> */}
                     <div className="dashboard-label">Dashboard</div>
                   </section>
                   <div className="logout-btn-section">
@@ -49,18 +47,8 @@ export default class UserCard extends React.PureComponent{
                       width={128}
                       style={{ borderRadius: "50%" }}
                     />
-                    {/* <Card.Body>
-                    <h3>{this.state.self.display}</h3>
-                    @{this.state.self.username}
-                </Card.Body> */}
                   </section>
                   <section className="user-card-buttons-container">
-                    {/* <section className="user-card-button-one">
-                        
-                    </section>
-                    <section className="user-card-button-two">
-                        <Button>Post</Button>
-                    </section> */}
                     <button className="goto-profile">Profile</button>
                     <button className="create-post" onClick={this.handleClick}>
                       Post
