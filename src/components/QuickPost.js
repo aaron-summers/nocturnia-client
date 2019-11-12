@@ -10,7 +10,9 @@ export default class QuickPostBox extends React.Component {
     content: "",
     tags: [],
     tmpId: null,
-    fill: false
+    fill: false,
+    maxTags: false,
+    invalidTags: false
   };
 
   handleSubmit = async event => {
@@ -43,15 +45,21 @@ export default class QuickPostBox extends React.Component {
   };
 
   handleTags = async event => {
-    let tag = event.target.value
-      .toLowerCase()
-      .trim()
-      .replace(/[^\w]/g, "");
-    if (!this.state.tags.includes(tag)) {
-      await this.setState(prevState => ({
-        tags: [...prevState.tags, tag]
-      }));
-    }
+    if (event.target.value.length > 64) return;
+
+      let tag = event.target.value
+        .toLowerCase()
+        .trim()
+        .replace(/[^\w]/g, "");
+      if (!this.state.tags.includes(tag) && this.state.tags.length <= 9) {
+        await this.setState(prevState => ({
+          tags: [...prevState.tags, tag]
+        }));
+      }
+
+      if (this.state.tags.length >= 10) {
+        this.setState({maxTags: true})
+      }
   };
 
   handleTagClick = async event => {
@@ -59,6 +67,10 @@ export default class QuickPostBox extends React.Component {
     await this.setState(prevState => ({
       tags: prevState.tags.filter(tag => tag !== name)
     }));
+
+    if (this.state.tags.length <=9) {
+      this.setState({ maxTags: false });
+    }
   };
 
   handleCloseBtn = () => {
@@ -71,9 +83,9 @@ export default class QuickPostBox extends React.Component {
         <Card className="create-post-box">
           <Card.Header className="quickpost-card-header">
             <span className="quickpost-header-text">Social</span>
-            <div className="cancel-btn" onClick={e => this.handleCloseBtn()}>
+            {/* <div className="cancel-btn" onClick={e => this.handleCloseBtn()}>
               <Cancel />
-            </div>
+            </div> */}
           </Card.Header>
           <form
             onSubmit={e => {
@@ -83,11 +95,6 @@ export default class QuickPostBox extends React.Component {
             <Card.Body className="quickpost-input-container">
               <textarea
                 onChange={event => this.handleChange(event)}
-                onKeyDown={event => {
-                  if (event.key === "Enter") {
-                    // return false;
-                  }
-                }}
                 className="postbox-textarea"
                 placeholder="What's going on?"
                 contentEditable
@@ -97,11 +104,7 @@ export default class QuickPostBox extends React.Component {
               {this.state.tags[0] !== "" && this.state.tags.length > 0 ? (
                 <div className="tags-container">
                   {this.state.tags.map(tag => (
-                    <div
-                      key={uuid()}
-                      onClick={event => this.handleTagClick(event)}
-                      className="tag-span"
-                    >
+                    <div key={uuid()} onClick={event => this.handleTagClick(event)} className="tag-span">
                       {tag}
                     </div>
                   ))}
@@ -111,28 +114,71 @@ export default class QuickPostBox extends React.Component {
               )}
             </Card.Body>
             <Card.Footer className="quickpost-tags-container">
-              <input
-                onKeyDown={event => {
-                  if (
-                    event.key === "Enter" ||
-                    event.key === "," ||
-                    event.key === " "
-                  ) {
-                    event.preventDefault();
-                    this.handleTags(event);
-                    event.target.value = "";
-                  }
-                }}
-                className="postbox-tags-textarea"
-                placeholder="Tags: science, non-fiction, etc..."
-                contentEditable
-                suppressContentEditableWarning
-              ></input>
+              <span style={
+                  !this.state.invalidTags
+                    ? { display: "none" }
+                    : { display: "block", maxWidth: "538px", padding: "10px" }}>
+                Only (64 total) lowercase alphabets, numbers and underscores are
+                valid.
+                <div style={{ fontWeight: "bolder" }}>
+                  {" "}
+                  Hit the delete key for wizardry.
+                </div>
+              </span>
+              {!this.state.maxTags ? (
+                <input
+                  onKeyDown={event => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      this.handleTags(event);
+                      this.setState({ invalidTags: false });
+                      event.target.value = "";
+                    } else if (event.key === "Delete") {
+                      event.preventDefault();
+                      this.setState({ invalidTags: false });
+                      if (!event.target.value.match(/^\w+$/)) {
+                        event.target.value = event.target.value
+                          .replace(/[^\w]/g, "")
+                          .toLowerCase();
+                      }
+                    }
+                  }}
+                  onChange={event => {
+                    if (
+                      event.target.value.search(/^\w+$/g) &&
+                      event.target.value !== ""
+                    ) {
+                      this.setState({ invalidTags: true });
+                    } else if (event.target.value.length > 64) {
+                      this.setState({ invalidTags: true });
+                    } else {
+                      this.setState({ invalidTags: false });
+                    }
+                  }}
+                  maxLength="64"
+                  className="postbox-tags-textarea"
+                  placeholder="Tags (eg: science, non_fiction)"
+                  contentEditable
+                  suppressContentEditableWarning
+                ></input>
+              ) : (
+                <></>
+              )}
             </Card.Footer>
-            <Card.Footer>
-              <Button disabled={this.state.fill ? false : true} type="submit">
+            <Card.Footer className="quickpost-box-footer">
+              <button
+                className="quickpost-cancel-btn"
+                onClick={e => this.handleCloseBtn()}
+              >
+                Cancel
+              </button>
+              <button
+                disabled={this.state.fill ? false : true}
+                className="quickpost-post-btn"
+                type="submit"
+              >
                 Post
-              </Button>
+              </button>
             </Card.Footer>
           </form>
         </Card>

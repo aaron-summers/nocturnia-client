@@ -184,11 +184,12 @@
         grid-row: 1/2;
         align-items: center;
         justify-items: center;
-        height: auto;
+        height: 272px;
         width: 538px;
         background-color: rgba(255, 255, 255, 0.02);
         color: white;
-        border-radius: 15px;
+        border-radius: 10px;
+        margin: 0 auto;
     }
     .user-card-avatar {
         padding: 30px;
@@ -309,12 +310,57 @@
     .create-post-box {
         background-color: rgba(255, 255, 255, 0.02);
         animation-duration: 0.5s;
-        border-radius: 15px;
+        border-radius: 10px 10px 10px 10px;
+        max-height: 600px;
     }
 
     .quickpost-card-header {
         display: grid;
         grid-template-columns: 0.45fr 0.5fr 1fr 1fr 1fr 1fr 1fr 0.5fr 0.45fr;
+    }
+
+    .quickpost-box-footer {
+        display: grid;
+        grid-template-columns: 1fr 3fr 1fr;
+        padding: 12px 10px;
+        max-height: 62px;
+    }
+
+    .quickpost-post-btn, .quickpost-cancel-btn {
+        color: white;
+        text-align: center;
+        background: transparent;
+        border: 0.5px solid rgba(215, 218, 251, 0.08);
+        box-shadow: 0 0px 4px 2px rgba(0, 0, 0, 0.08);
+        border-radius: 30px;
+        height: 36px;
+        transition: 0.5s ease-in-out;
+    }
+
+    .quickpost-post-btn:disabled {
+        opacity: 0.04;
+    }
+
+    .quickpost-post-btn:enabled {
+        transition-property: opacity;
+        opacity: 1;
+    }
+
+    .quickpost-post-btn:hover, .quickpost-cancel-btn:hover {
+        box-shadow: 0 0 10px 1px rgba(215, 218, 251, 0.08);
+        z-index: 10px;
+    }    
+
+    .quickpost-post-btn:focus, .quickpost-cancel-btn:focus {
+        outline: 0;
+    }
+
+    .quickpost-post-btn {
+        grid-column: 3/4;
+    }
+
+    .quickpost-cancel-btn {
+        grid-column: 1/2;
     }
 
     .quickpost-header-text {
@@ -357,15 +403,17 @@
         text-align: left;
         width: 100%;
         max-width: 538px;
-        max-height: 300px;
+        max-height: 156px;
     }
 
     .tag-span {
         color: rgba(215, 218, 251, 0.5);
         display: inline;
-        background-color: rgba(81, 45, 168, 0.1);
+        background-color: rgba(49, 49, 49, 0.096);
         margin: 2.5px;
         cursor: pointer;
+        border-radius: 5px;
+        padding: 0px 20px;
     }
 
     .postbox-tags-textarea {
