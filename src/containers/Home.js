@@ -99,5 +99,3 @@ export default class Home extends React.Component{
         );
     }
 }
-
-// style={{ display: "hidden" }}

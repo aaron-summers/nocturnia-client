@@ -198,6 +198,7 @@
         border-right: 1px solid rgba(215, 218, 251, 0.015);
         line-height: 5px;
         border-radius: 15px;
+        border: 1px solid rgba(215, 218, 251, 0.0025);
     }
     .user-card-buttons-container {
         display: grid;
@@ -206,6 +207,8 @@
         grid-row: 2/3;
         align-items: center;
         justify-items: center;
+        height: 180px;
+        margin: auto;
     }
     .user-card-button-one {
         grid-row: 1/2
@@ -299,7 +302,7 @@
 
     .goto-profile:hover, .create-post:hover {
         background-color: rgba(63, 35, 129, 0.15);
-        box-shadow: 0px 0px 15px 10px rgba(81, 45, 168, 0.08);
+        box-shadow: 0px 0px 15px 10px rgba(154, 111, 255, 0.08);
         transform: scale(1.025);
     }
     .goto-profile:focus, .create-post:focus {
@@ -312,6 +315,7 @@
         animation-duration: 0.5s;
         border-radius: 10px 10px 10px 10px;
         max-height: 600px;
+        backface-visibility: hidden;
     }
 
     .quickpost-card-header {
@@ -427,10 +431,35 @@
         width: 100%;
         max-height: 124px; 
         min-height: 64px;
+        grid-column: 1/2;
+        grid-row: 2/3;
+        max-width: 614px;
+        grid-area: tag-input;
+    }
+
+    .quickpost-tag-charcount {
+        grid-area: char-count;
+        /* margin: auto; */
+        border: 1px solid rgba(215, 218, 251, 0.015);
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        display: inherit;
+        align-items: center;
+        color: white;
     }
 
     .quickpost-input-container, .quickpost-tags-container {
         padding: 0;
+    }
+
+    .quickpost-tags-container {
+        display: grid;
+        /* grid-template-columns: 3fr 1fr;
+        grid-template-rows: 1fr; */
+        grid-template-areas: "warning warning"
+                             "tag-input char-count";
+        max-width: 538px;
     }
 
     .postbox-tags-textarea:focus {

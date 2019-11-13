@@ -12,7 +12,8 @@ export default class QuickPostBox extends React.Component {
     tmpId: null,
     fill: false,
     maxTags: false,
-    invalidTags: false
+    invalidTags: false,
+    tagChars: 0
   };
 
   handleSubmit = async event => {
@@ -46,6 +47,7 @@ export default class QuickPostBox extends React.Component {
 
   handleTags = async event => {
     if (event.target.value.length > 64) return;
+    if (!event.target.value.length) return;
 
       let tag = event.target.value
         .toLowerCase()
@@ -83,9 +85,6 @@ export default class QuickPostBox extends React.Component {
         <Card className="create-post-box">
           <Card.Header className="quickpost-card-header">
             <span className="quickpost-header-text">Social</span>
-            {/* <div className="cancel-btn" onClick={e => this.handleCloseBtn()}>
-              <Cancel />
-            </div> */}
           </Card.Header>
           <form
             onSubmit={e => {
@@ -102,12 +101,13 @@ export default class QuickPostBox extends React.Component {
                 required
               ></textarea>
               {this.state.tags[0] !== "" && this.state.tags.length > 0 ? (
-                <div className="tags-container">
+                <div className="tags-container" style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
                   {this.state.tags.map(tag => (
                     <div key={uuid()} onClick={event => this.handleTagClick(event)} className="tag-span">
                       {tag}
                     </div>
                   ))}
+                  <span>{this.state.tags.length}/10</span>
                 </div>
               ) : (
                 <></>
@@ -117,21 +117,24 @@ export default class QuickPostBox extends React.Component {
               <span style={
                   !this.state.invalidTags
                     ? { display: "none" }
-                    : { display: "block", maxWidth: "538px", padding: "10px" }}>
+                    : { display: "block", maxWidth: "538px", padding: "10px", gridArea: "warning", borderBottom: "1px solid rgba(215, 218, 251, 0.01)" }}>
                 Only (64 total) lowercase alphabets, numbers and underscores are
                 valid.
                 <div style={{ fontWeight: "bolder" }}>
-                  {" "}
                   Hit the delete key for wizardry.
                 </div>
               </span>
+              {!this.state.maxTags ? <span className="quickpost-tag-charcount">
+                {this.state.tagChars}/64</span> 
+                : <></>
+                }
               {!this.state.maxTags ? (
                 <input
                   onKeyDown={event => {
                     if (event.key === "Enter" || event.key === " ") {
                       event.preventDefault();
                       this.handleTags(event);
-                      this.setState({ invalidTags: false });
+                      this.setState({ invalidTags: false, tagChars: 0 });
                       event.target.value = "";
                     } else if (event.key === "Delete") {
                       event.preventDefault();
@@ -141,9 +144,11 @@ export default class QuickPostBox extends React.Component {
                           .replace(/[^\w]/g, "")
                           .toLowerCase();
                       }
+                      this.setState({ tagChars: event.target.value.length });
                     }
                   }}
                   onChange={event => {
+                    this.setState({tagChars: event.target.value.length})
                     if (
                       event.target.value.search(/^\w+$/g) &&
                       event.target.value !== ""
@@ -155,6 +160,7 @@ export default class QuickPostBox extends React.Component {
                       this.setState({ invalidTags: false });
                     }
                   }}
+                  className="quickpost-tags-input"
                   maxLength="64"
                   className="postbox-tags-textarea"
                   placeholder="Tags (eg: science, non_fiction)"
