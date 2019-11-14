@@ -25,6 +25,7 @@ const recommendedPosts = (token) => {
 }
 
 const createPost = async (input) => {
+    // console.log(input)
     const post = JSON.stringify(input)
     return fetch(createUrl, {
         method: 'POST',
@@ -40,7 +41,7 @@ const createPost = async (input) => {
             return jsonRes
         } else if (jsonRes.error.message === "jwt expired".toLowerCase()) {
             await localStorage.setItem("tmpContent", input.content)
-            await localStorage.setItem("tmpTags", input.tags)
+            await localStorage.setItem("tmpTags", input.tags);
             window.location.reload();
             return jsonRes
         } else {

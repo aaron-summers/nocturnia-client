@@ -31,12 +31,13 @@ export default class Home extends React.Component{
     }
 
     submitPost = async (post) => {
+      console.log(post)
       await postAdapter.createPost(post).then(async data => {
         if (!data.error) {
             await this.setState(prevState => ({
               posts: [data].concat(...prevState.posts)
             }));
-        }
+        } 
       })
 
       await this.setState({postBox: false})

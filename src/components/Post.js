@@ -3,10 +3,12 @@ import React from "react";
 import uuid from "uuid/v4";
 
 import { Card } from "react-bootstrap";
+import adapter from "../api/auth/adapter"
 
 export default class Post extends React.Component {
   state = {
-    expandedView: false
+    expandedView: false,
+    avatar: null
   };
 
   handleView = (event) => {
@@ -16,6 +18,11 @@ export default class Post extends React.Component {
   render() {
     return (
       <div className="post-box">
+        <div className="postbox-user-avatar-container">
+          <div className="postbox-user-avatar">
+            <img className="postbox-user-image" src={this.props.userAvatar}/>
+          </div>
+        </div>
         <Card className="postbox-card">
           {this.props.title ? (
             <Card.Header>{this.props.title}</Card.Header>
@@ -51,7 +58,7 @@ export default class Post extends React.Component {
           ) : (
             <> </>
           )}
-          <div className="post-engagement-container">likes and stuff</div>
+          <div className="post-engagement-container">[likes and stuff here]</div>
         </Card>
       </div>
     );

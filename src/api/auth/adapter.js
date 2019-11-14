@@ -99,6 +99,24 @@ const getSelf = (token) => {
     })
 }
 
+const getAvatars = (userId) => {
+    return fetch(`http://localhost:3000/users/${userId}/avatar`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': localStorage.x_tn
+        }
+    }).then(res => res.json()).then(async data => {
+        if (!data.error) {
+            // console.log(data)
+            return data
+        } else {
+            window.location.reload()
+            return data
+        }
+    })
+}
+
 const logout = () => {
     localStorage.clear()
     window.location.reload();
@@ -110,5 +128,6 @@ export default {
     validate,
     logout,
     renewToken,
-    getSelf
+    getSelf,
+    getAvatars
 }
