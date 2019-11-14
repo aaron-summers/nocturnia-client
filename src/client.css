@@ -111,7 +111,7 @@
         height: 78px;
         grid-row: 1/2;
         position: fixed;
-        background-color: rgb(10, 10, 10);
+        background-color: rgb(2, 2, 2);
         align-items: center;
         text-align: left;
         z-index: 10;
@@ -138,11 +138,53 @@
         display: grid;
         padding: 10px 20px;
         text-align: left;
+        grid-template-columns: 64px 1fr;
     }
+
+    .post-image-container {
+        /* margin: auto; */
+        width: 100%;
+        max-height: 100%;
+        background-color: rgba(215, 218, 251, 0.005);
+        /* max-width: 500px; */
+    }
+
+    .post-img {
+        /* padding: 0 12px; */
+        width: 100%;
+        object-fit: cover;
+        border-radius: 5px;
+        cursor: grab;
+    }
+
+    .post-img:active {
+        cursor: pointer;
+    }
+
+    .post-content-container {
+        padding: 15px 20px;
+        height: 100%;
+        width: 100%;
+        border-bottom: 1px solid rgba(215, 218, 251, 0.0025);
+    }
+
+    .post-tags-container {
+        padding: 10px 20px;
+        background-color: rgba(215, 218, 251, 0.005);
+    }
+
+    .post-engagement-container {
+        padding: 15px 20px;
+        /* background-color: rgba(215, 218, 251, 0.03); */
+    }
+
     .postbox-card {
         z-index: 0;
         background:none;
-        background-color: rgba(255, 255, 255, 0.02);
+        background-color: rgba(255, 255, 255, 0.03);
+        grid-column: 2/3;
+        border-radius: 5px;
+        max-width: 512px;
     }
     .searchbar {
         justify-content: center;
@@ -186,7 +228,7 @@
         justify-items: center;
         height: 272px;
         width: 538px;
-        background-color: rgba(255, 255, 255, 0.02);
+        background-color: rgba(255, 255, 255, 0.025);
         color: white;
         border-radius: 10px;
         margin: 0 auto;
@@ -248,7 +290,7 @@
         color: white;
         width: 540px;
         height: 72px;
-        background-color: rgba(255, 255, 255, 0.02);
+        background-color: rgba(255, 255, 255, 0.025);
         border-radius: 5px;
         justify-items: center;
         align-items: center;
@@ -311,7 +353,7 @@
     }
 
     .create-post-box {
-        background-color: rgba(255, 255, 255, 0.02);
+        background-color: rgba(255, 255, 255, 0.025);
         animation-duration: 0.5s;
         border-radius: 10px 10px 10px 10px;
         max-height: 600px;
@@ -454,11 +496,11 @@
     }
 
     .quickpost-tags-container {
-        display: grid;
+        /* display: grid; */
         /* grid-template-columns: 3fr 1fr;
         grid-template-rows: 1fr; */
-        grid-template-areas: "warning warning"
-                             "tag-input char-count";
+        /* grid-template-areas: "warning warning"
+                             "tag-input"; */
         max-width: 538px;
     }
 
@@ -567,14 +609,14 @@
         grid-column: 4/5;
     }
 
-    .sidepanel-toolbar-container {
+    .sidepanel-empty-child-container {
         display: grid;
         width: 614px;
         grid-template-columns: 1fr 1fr 1fr 1fr;
         height: 78px;
         grid-row: 1/2;
         position: fixed;
-        background-color: rgb(10, 10, 10);
+        background-color: rgb(2, 2, 2);
         align-items: center;
         text-align: left;
         z-index: 10;

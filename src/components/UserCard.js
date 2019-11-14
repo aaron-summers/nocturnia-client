@@ -49,7 +49,7 @@ export default class UserCard extends React.PureComponent{
                     />
                   </section>
                   <section className="user-card-buttons-container">
-                    <button className="goto-profile">Profile</button>
+                    <button className="goto-profile">Explore</button>
                     <button className="create-post" onClick={this.handleClick}>
                       Post
                     </button>

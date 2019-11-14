@@ -47,7 +47,7 @@ export default class QuickPostBox extends React.Component {
 
   handleTags = async event => {
     if (event.target.value.length > 64) return;
-    if (!event.target.value.length) return;
+    if (event.target.value === "") return;
 
       let tag = event.target.value
         .toLowerCase()
@@ -101,33 +101,49 @@ export default class QuickPostBox extends React.Component {
                 required
               ></textarea>
               {this.state.tags[0] !== "" && this.state.tags.length > 0 ? (
-                <div className="tags-container" style={{wordWrap: "break-word", overflowWrap: "break-word"}}>
+                <div
+                  className="tags-container"
+                  style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+                >
                   {this.state.tags.map(tag => (
-                    <div key={uuid()} onClick={event => this.handleTagClick(event)} className="tag-span">
+                    <div
+                      key={uuid()}
+                      onClick={event => this.handleTagClick(event)}
+                      className="tag-span"
+                    >
                       {tag}
                     </div>
                   ))}
-                  <span>{this.state.tags.length}/10</span>
+                  {this.state.tags.length < 10 ? <span>{this.state.tags.length}/10</span> : <> </>}
                 </div>
               ) : (
                 <></>
               )}
             </Card.Body>
-            <Card.Footer className="quickpost-tags-container">
-              <span style={
+            <div className="quickpost-tags-container">
+              <span
+                style={
                   !this.state.invalidTags
                     ? { display: "none" }
-                    : { display: "block", maxWidth: "538px", padding: "10px", gridArea: "warning", borderBottom: "1px solid rgba(215, 218, 251, 0.01)" }}>
+                    : {
+                        display: "block",
+                        maxWidth: "538px",
+                        padding: "10px",
+                        gridArea: "warning",
+                        borderBottom: "1px solid rgba(215, 218, 251, 0.01)"
+                      }
+                }
+              >
                 Only (64 total) lowercase alphabets, numbers and underscores are
                 valid.
                 <div style={{ fontWeight: "bolder" }}>
                   Hit the delete key for wizardry.
                 </div>
               </span>
-              {!this.state.maxTags ? <span className="quickpost-tag-charcount">
+              {/* {!this.state.maxTags ? <span className="quickpost-tag-charcount">
                 {this.state.tagChars}/64</span> 
                 : <></>
-                }
+                } */}
               {!this.state.maxTags ? (
                 <input
                   onKeyDown={event => {
@@ -148,7 +164,7 @@ export default class QuickPostBox extends React.Component {
                     }
                   }}
                   onChange={event => {
-                    this.setState({tagChars: event.target.value.length})
+                    this.setState({ tagChars: event.target.value.length });
                     if (
                       event.target.value.search(/^\w+$/g) &&
                       event.target.value !== ""
@@ -170,7 +186,43 @@ export default class QuickPostBox extends React.Component {
               ) : (
                 <></>
               )}
-            </Card.Footer>
+              <div>
+                <div
+                  style={
+                    this.state.tagChars === 0
+                      ? { background: "transparent" }
+                      : this.state.tagChars < (64 / 100) * 65
+                      ? {
+                          width: `${(this.state.tagChars / 64) * 100}%`,
+                          boxShadow: `inset 0 0 55px 10px rgb(10, 255, 100)`,
+                          maxHeight: `24px`,
+                          fontSize: "10px",
+                          borderRadius: "20px"
+                        }
+                      : this.state.tagChars >= (64 / 100) * 65 &&
+                        this.state.tagChars <= (64 / 100) * 98
+                      ? {
+                          width: `${(this.state.tagChars / 64) * 100}%`,
+                          boxShadow: `inset 0 0 55px 10px rgb(255, 255, 80)`,
+                          fontSize: "10px",
+                          borderRadius: "20px"
+                        }
+                      : this.state.tagChars >= (64 / 100) * 98 &&
+                        this.state.tagChars <= (64 / 100) * 100
+                      ? {
+                          width: `${(this.state.tagChars / 64) * 100}%`,
+                          boxShadow: `inset 0 0 55px 10px rgb(216, 13, 40)`,
+                          color: `rgb(255, 255, 255)`,
+                          fontSize: "10px",
+                          borderRadius: "20px"
+                        }
+                      : { backgroundColor: "rgba(0, 255, 0, 0.05)" }
+                  }
+                >
+                  {this.state.tagChars > 0 ? <span>{this.state.tagChars}</span> : <></>}
+                </div>
+              </div>
+            </div>
             <Card.Footer className="quickpost-box-footer">
               <button
                 className="quickpost-cancel-btn"

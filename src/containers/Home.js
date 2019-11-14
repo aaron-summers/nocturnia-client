@@ -79,7 +79,7 @@ export default class Home extends React.Component{
               </div>
             </section>
             <section className="sidepanel-header-container">
-              <div className="sidepanel-toolbar-container">
+              <div className="sidepanel-empty-child-container">
               </div>
             </section>
             <section className="home-sidepanel">
