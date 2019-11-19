@@ -23,8 +23,7 @@ const signup = async (user) => {
         body: body
     }).then(res => res.json()).then(async data => {
         if (!data.error) {
-            await localStorage.setItem("token", data.token);
-            window.location.reload();
+            await localStorage.setItem("x_tn", data.token);
             return data;            
         } else {
             return data
@@ -41,11 +40,9 @@ const validate = async (token) => {
                 'Authorization': token
             }
         }).then(res => res.json()).then(async (jsonRes) => {
-            if (!jsonRes.error) {
+            if (!jsonRes.error && jsonRes.valid === true) {
                 return jsonRes
-        }   else if (jsonRes.error.message === "jwt expired".toLowerCase()) {
-                await renewToken(token)
-                // window.location.reload()
+        }   else if (!jsonRes.valid && jsonRes.error.message === "jwt expired".toLowerCase()) {
                 return jsonRes
         }   else {
             return jsonRes
@@ -54,6 +51,7 @@ const validate = async (token) => {
 }
 
 const renewToken = async (oldToken) => {
+    localStorage.clear()
     return fetch(renew, {
         method: 'POST',
         headers: {
@@ -62,8 +60,9 @@ const renewToken = async (oldToken) => {
         }
     }).then(res => res.json()).then(async resp => {
         await localStorage.setItem("x_tn", resp.data.token);
+        await localStorage.setItem("a_id", resp.data.a_id)
         validate(resp.data.token);
-        // window.location.reload()
+        window.location.reload()
     })
 }
 
@@ -80,7 +79,7 @@ const login = async (user) => {
                 await localStorage.setItem("x_tn", resp.data.token);
                 await localStorage.setItem("a_id", resp.data.a_id);
                 window.location.reload();
-                return resp          
+                return resp
             } else {
                 return resp
             }

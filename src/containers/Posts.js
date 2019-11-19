@@ -5,7 +5,7 @@ import Post from '../components/Post'
 const Posts = ({data}) => {
     return (
       <div>
-        {data.map(post => <Post key={post._id} {...post}/>)}
+        {data ? data.map(post => <Post key={post._id} {...post}/>) : <></>}
       </div>
     );
 }

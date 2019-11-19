@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect, Switch } from "react-router-dom";
+import { Route, Redirect, Switch, withRouter } from "react-router-dom";
 
 //css
 import "../home.css";
@@ -16,14 +16,32 @@ import Spotlight from '../components/Spotlight';
 import QuickPostBox from '../components/QuickPost';
 import Logout from '../components/Logout';
 
-export default class Home extends React.Component{
+class Home extends React.Component{
     state = {
         posts: [],
         postsVisible: true,
         postBox: false
     }
     async componentDidMount() {
-        await postAdapter.recommendedPosts(localStorage.x_tn).then(posts => this.setState(posts))
+      if (sessionStorage.tmpContent) {
+        const recomposed = {
+          content: sessionStorage.tmpContent,
+          tags: sessionStorage.tmpTags.split(",")
+        };
+        await postAdapter.createPost(recomposed).then(async data => {
+          if (!data.error) {
+            await this.setState({ posts: [data].concat(this.state.posts) });
+            sessionStorage.clear()
+          }
+        });
+      }
+      await postAdapter.recommendedPosts(localStorage.x_tn).then(data => {
+        if (!data.error) {
+          this.setState({posts: data.posts})
+        } else {
+          window.location.reload()
+        }
+      })
     }
 
     toggleModal = () => {
@@ -31,32 +49,16 @@ export default class Home extends React.Component{
     }
 
     submitPost = async (post) => {
-      console.log(post)
       await postAdapter.createPost(post).then(async data => {
+        console.log(data)
         if (!data.error) {
             await this.setState(prevState => ({
               posts: [data].concat(...prevState.posts)
             }));
-        } 
+        }
       })
 
       await this.setState({postBox: false})
-    }
-
-    async componentWillMount() {
-      if (localStorage.tmpContent) {
-
-        const recomposed = {
-          content: localStorage.tmpContent,
-          tags: localStorage.tmpTags.split(",")
-        }
-
-        await postAdapter.createPost(recomposed).then(async data => {
-          if (!data.error) {
-          await this.setState({posts: [data].concat(this.state.posts)})
-          }
-        })
-      }
     }
 
     render() {
@@ -69,24 +71,24 @@ export default class Home extends React.Component{
                 </div>
               </div>
             </section>
-            <div className="home-header">
+            {/* <div className="home-header">
               <div className="headerbar">
                 <Search />
               </div>
-            </div>
+            </div> */}
             <section className="home-body">
               <div className="posts-container">
                 <Posts data={this.state.posts} />
               </div>
             </section>
-            <section className="sidepanel-header-container">
+            {/* <section className="sidepanel-header-container">
               <div className="sidepanel-empty-child-container">
               </div>
-            </section>
+            </section> */}
             <section className="home-sidepanel">
               <div className="panel-container">
                 <div className="panel">
-                    <UserCard toggler={this.toggleModal} />
+                    <UserCard toggler={this.toggleModal} {...this.props}/>
                   {this.state.postBox ? (
                     <QuickPostBox submit={this.submitPost} toggler={this.toggleModal} />
                   ) : (
@@ -100,3 +102,5 @@ export default class Home extends React.Component{
         );
     }
 }
+
+export default withRouter(Home)

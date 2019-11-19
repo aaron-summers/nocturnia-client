@@ -3,8 +3,10 @@ import React from "react";
 const Logout = () => {
 
     const handleLogout = async () => {
-        await localStorage.clear();
-        window.location.reload()
+      // console.log(history)
+      // history.push("/")
+      await localStorage.clear();
+      window.location.reload()
     }
 
   return (

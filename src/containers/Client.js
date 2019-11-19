@@ -12,75 +12,80 @@ import Loading from "../components/Loading";
 //css
 import '../client.css'
 import TokenError from '../components/error/token';
+import Root from './Root';
 
 export default class Index extends React.Component {
   state = {
     actor: null,
-    isAuthenticated: false,
+    authenticated: undefined,
     error: null,
-    loading: true
+    loading: true,
   }
 
   signup = async (user) => {
+    this.setState({error: null})
     const data = await adapter.signup(user)
     if (!data.error) {
-      await adapter.validate(data.token);
-    } else {
-      this.setState({error: data.error})
+      const login = await adapter.validate(localStorage.x_tn);
+      if (!login.error) {
+        // console.log(login)
+        localStorage.setItem("a_id", login.user._id)
+        window.location.reload()
+      }
+    } else if (data.error) {
+      this.setState({error: data.error, loading: false})
     }
   }
 
   login = async (user) => {
+  this.setState({ error: null });
   const response = await adapter.login(user);
-    if (response.error) {
-      this.setState({ error: response.error });
+    if (response.error && response.error.status === 401) {
+      this.setState({ error: response.error, loading: false });
     }
-
 }
 
-  handleError = (error) => {
-    return error
+  handleFormToggle = () => {
+    this.setState({error: null})
   }
 
   async componentDidMount() {
-    if (localStorage.x_tn && localStorage.a_id) {
-      const data = await adapter.validate(localStorage.x_tn).then(data => {
-        if (data._id) {
-          this.setState({loading: false, actor: {a_id: data._id, x_dn: data.displayName}, isAuthenticated: true})
-        } else if (data.error.message === "jwt expired") {
-          // console.log(data)
-          this.setState({loading: false, error: data.error, actor: null, isAuthenticated: true})
-        } else {
-          console.log(data)
-          this.setState({
-            loading: false,
-            error: {error: data.error, status: data.status},
-            actor: null,
-            isAuthenticated: false
-          });
-        }
-      })
-    }
+    if (localStorage.x_tn) {
+      const data = await adapter.validate(localStorage.x_tn)
+      if (!data.valid && data.error.message !== "jwt expired") {
+        await this.setState({
+          authenticated: false,
+          error: data.error,
+          loading: false
+        });
+        return
+      }
+      if (!data.valid && data.error.message === "jwt expired") {
+        await adapter.renewToken(localStorage.x_tn);
+      } else {
+        this.setState({
+          loading: false,
+          actor: { id: data.user._id, xdn: data.user.displayName },
+          authenticated: true
+        });
+      }
+    } 
   }
 
     render() {
         return (
           <div className="container">
+
           {
-              !localStorage.x_tn ? <Redirect to="/welcome" />
-              : this.state.isAuthenticated ? <Redirect to="/home" />
-              : this.state.loading === true ? <Redirect to="/fetching" />
-              : this.state.error ? <Redirect to="/error" />
-              : <> </>
+            !this.state.authenticated && !localStorage.x_tn
+            ? <Forms {...this.props} handleFormToggle={this.handleFormToggle} error={this.state.error} user={this.state.actor} signup={this.signup} login={this.login}/>
+            : this.state.error ? <TokenError />
+            : this.state.loading ? <Loading />
+            : <></>
           }
-          <React.Fragment>
-            <Switch>
-            { this.state.isAuthenticated ? <Route path="/home" component={Home}/> : <Route path="/fetching" component={Loading} /> }
-            <Route path="/welcome" component={(props) => <Forms user={this.state.actor} signup={this.signup} login={this.login}/>} />
-            <Route path="/fetching" component={Loading} />
-            <Route path="/error" component={TokenError}/>
-            </Switch>
-          </React.Fragment>
+          {
+            this.state.authenticated && <Route path="/" render={(props) => <Root error={this.state.error} {...props}/>}/>
+          }
           </div>
         );
     }

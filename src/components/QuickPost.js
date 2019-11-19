@@ -134,7 +134,7 @@ export default class QuickPostBox extends React.Component {
                       }
                 }
               >
-                Only (64 total) lowercase alphabets, numbers and underscores are
+                Only lowercase alphabets, numbers and underscores are
                 valid.
                 <div style={{ fontWeight: "bolder" }}>
                   Hit the delete key for wizardry.

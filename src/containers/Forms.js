@@ -15,6 +15,11 @@ export default class Forms extends React.Component {
 
     handleClick = () => {
         this.setState({displayLogin: !this.state.displayLogin})
+        this.props.handleFormToggle()
+    }
+
+    componentDidMount() {
+        this.props.history.push("/")
     }
 
   render() {
@@ -24,6 +29,7 @@ export default class Forms extends React.Component {
         <React.Fragment>
         { this.state.displayLogin ?
              <div className="login-form">
+                {this.props.error ? <span style={{color: "red"}}>{this.props.error.message}</span> : <></>}
                 <Login submit={login}/>
                 <div className="signup-text">Don't have an account yet? <span className="signup-link" onClick={this.handleClick} style={{margin: 0, paddingLeft: 0, paddingTop: 0, cursor: 'pointer'}}>
                         Sign Up Now!
@@ -33,6 +39,7 @@ export default class Forms extends React.Component {
             :
             <div>
                 <div className="signup-form">
+                    {this.props.error ? <span style={{color: "red"}}>{this.props.error.message}</span> : <></>}
                     <Signup submit={signup} header={"Sign up"} />
                     <div className="login-text">Already have an account? <span className="login-link" onClick={this.handleClick} style={{margin: 0, paddingLeft: 0, paddingTop: 0, cursor: 'pointer'}}>Sign In</span ></div>
                 </div>

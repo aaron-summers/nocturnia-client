@@ -20,7 +20,11 @@ export default class Post extends React.Component {
       <div className="post-box">
         <div className="postbox-user-avatar-container">
           <div className="postbox-user-avatar">
-            <img className="postbox-user-image" src={this.props.userAvatar}/>
+            {
+              this.props.userAvatar !== null
+              ? <img className="postbox-user-image" src={this.props.userAvatar}/>
+              : <div className="backup-post-useravatar"> </div>
+            }
           </div>
         </div>
         <Card className="postbox-card">

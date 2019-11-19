@@ -5,8 +5,10 @@ import adapter from '../api/auth/adapter';
 import Loading from './Loading'
 import Search from './Search';
 import Logout from './Logout';
+import {Link, Redirect, Switch, Route, withRouter} from 'react-router-dom'
+import Explore from './Explore';
 
-export default class UserCard extends React.PureComponent{
+class UserCard extends React.PureComponent{
     state = {
         self: null
     }
@@ -27,6 +29,14 @@ export default class UserCard extends React.PureComponent{
         this.props.toggler()
     }
 
+    handleExploreBtn = () => {
+      this.props.history.push("/explore")
+    }
+
+    handleProfile = (username) => {
+      this.props.history.push(`/${username}`)
+    }
+
     render() {
         return (
           <section>
@@ -37,19 +47,20 @@ export default class UserCard extends React.PureComponent{
                     <div className="dashboard-label">Dashboard</div>
                   </section>
                   <div className="logout-btn-section">
-                    <Logout />
+                    <Logout {...this.props}/>
                   </div>
                 </section>
                 <section className="user-section-2">
                   <section className="user-card-avatar">
-                    <img
-                      src={this.state.self.avatar}
-                      width={128}
-                      style={{ borderRadius: "50%" }}
-                    />
+                    {
+                      this.state.self.avatar !== null 
+                      ? <div className="usercard-avatar-image" onClick={() => this.handleProfile(this.state.self.username)}><img src={this.state.self.avatar} width={124} style={{ borderRadius: "50%" }}/></div>
+                      : <div className="backup-usercard-avatar"> </div>
+                    }
+
                   </section>
                   <section className="user-card-buttons-container">
-                    <button className="goto-profile">Explore</button>
+                    <button className="goto-profile" onClick={this.handleExploreBtn}>Explore</button>
                     <button className="create-post" onClick={this.handleClick}>
                       Post
                     </button>
@@ -63,3 +74,5 @@ export default class UserCard extends React.PureComponent{
         );
     }
 }
+
+export default withRouter(UserCard)

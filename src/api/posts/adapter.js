@@ -34,17 +34,19 @@ const createPost = async (input) => {
     }).then(res => res.json()).then(async jsonRes => {
         if (!jsonRes.error) {
             // window.location.reload()
-            if (localStorage.tmpContent) {
-                await localStorage.removeItem('tmpContent')
-                await localStorage.removeItem('tmpTags')
-            }
+            // if (localStorage.tmpContent) {
+            //     await localStorage.removeItem('tmpContent')
+            //     await localStorage.removeItem('tmpTags')
+            // }
             return jsonRes
-        } else if (jsonRes.error.message === "jwt expired".toLowerCase()) {
-            await localStorage.setItem("tmpContent", input.content)
-            await localStorage.setItem("tmpTags", input.tags);
-            window.location.reload();
+        } else if (jsonRes.error.message === "jwt expired") {
+            await sessionStorage.setItem("tmpContent", input.content)
+            await sessionStorage.setItem("tmpTags", input.tags);
+            await window.location.reload();
+            // console.log(input)
             return jsonRes
         } else {
+            console.log(jsonRes)
             return jsonRes
         }
     })
